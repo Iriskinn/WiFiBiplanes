@@ -1,0 +1,43 @@
+<script src="jquery.js"></script>
+<script type="text/javascript">
+
+var IP_ADDR = "%s";
+var PORT = "%d";
+var WEB_PORT = "%d";
+
+
+function sendRequest() {
+    $.ajax({
+        url: "http://" + IP_ADDR + ":" + PORT + "/",
+        cache: false,
+        type: "POST",
+        data: { 'data' : '{"username":"' + 
+                document.getElementById("username_input").value + 
+                            '","password":"' + 
+                document.getElementById("password_input").value + '","action":"login"}'
+                },
+        dataType: "json",
+
+        success: function(data) {
+        }
+    });
+}
+
+function redirect() {
+    document.cookie = "username=" + document.getElementById("username_input").value;
+    document.cookie = "password=" + document.getElementById("password_input").value;
+    window.location = "http://" + IP_ADDR + ":" + WEB_PORT + "/play?username=" + 
+            document.getElementById("username_input").value;
+}
+
+</script>
+
+<html>
+<body>
+    Username: <input id="username_input" type="text" size="15">
+    <br>
+    Password: <input id="password_input" type="password" size="15">
+    <br>
+    <button onClick="sendRequest(); redirect();">Log in</button>
+</body>
+</html>
