@@ -23,6 +23,7 @@ class Game:
             r = random.randint(0, 1)
             self.teams[r].append(username)
         self.ingame.add(username)
+        print(self.teams)
 
 
     def getRole(self, username):
@@ -39,4 +40,8 @@ class Game:
 
 
     def recharge(self, username):
+        pass
+
+
+    def time_step(self, delta_time):
         pass

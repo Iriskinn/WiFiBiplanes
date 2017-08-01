@@ -1,11 +1,11 @@
-<script src="jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 function getCookie(name) {
-  var matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
 function sendRequest(action, type) {
@@ -13,7 +13,7 @@ function sendRequest(action, type) {
         url: "http://%s:%d",
         type: "POST",
         data: { 'data' : '{"username":"'+getCookie('username')+'","password":"'+
-        		getCookie('password')+'","action":"'+action+'","type":"'+type+'"}' },
+                getCookie('password')+'","action":"'+action+'","type":"'+type+'"}' },
         dataType: "json",
 
         success: function(data) {
@@ -21,26 +21,47 @@ function sendRequest(action, type) {
     });
 }
 
-// сделать в on document ready
-// $("#attackButton").bind('onClick', sendRequest('attack', 'front'));
-// $("#rechargeButton").bind('onClick', sendRequest());
+$(document).ready(function() {
+    $('.game_button').bind('touchstart', function() {
+        sendRequest(this.dataset.action, 'start');
+        $(this).addClass('active_button');
+    });
+
+    $('.game_button').bind('touchend', function() {
+        sendRequest(this.dataset.action, 'stop');
+        $(this).removeClass('active_button');
+    });
+});
+
 </script>
+
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+<meta name="viewport" content="width=device-width; initial-scale=0.65; maximum-scale=0.65; user-scalable=0;">
 
 <html>
 <body>
-	<h2>You play as shooter!</h2>
+    <h2>You play as shooter!</h2>
 
-	<div id="attackButton" ontouchstart="sendRequest('attack', 'start');"
-							ontouchend="sendRequest('attack', 'stop');"
-				style="height:150px; width:150px; border: 2px solid red;
-						line-height:150px">
-		<center>Attack</center>
-	</div>
-	<br><br><br>
-	<div id="rechargeButton" ontouchstart="sendRequest('recharge', '');"
-				style="height:150px; width:150px; border: 2px solid red;
-						line-height:150px">
-		<center>Recharge</center>
-	</div>
+    <table>
+        <tr>
+            <td> 
+                <div data-action="attack" class="game_button">Attack</div>
+            </td>
+            <td> <div class="element"></div> </td>
+            <td>
+                <div data-action="recharge" class="game_button">Recharge</div>
+            </td>
+        </tr>
+        <tr>
+            <td> <div class="element"></div> </td>
+            <td> <div class="element"></div> </td>
+            <td> <div class="element"></div> </td>
+        </tr>
+        <tr>
+            <td> <div data-action="runLeft" class="game_button">Run Left</div> </td>
+            <td> <div data-action="catapult" class="game_button">Catapult</div> </td>
+            <td> <div data-action="runRight" class="game_button">Run Right</div> </td>
+        </tr>
+    </table>
 </body>
 </html>

@@ -9,8 +9,12 @@ players = {}
 def web_server(env, start_response):
     if env["PATH_INFO"] == '/':
         r = (open('start.html').read() % (IP_ADDR, MAIN_PORT, WEB_PORT)).encode('utf-8')
-    elif env["PATH_INFO"] == '/jquery.js':
-        r = open('jquery.js').read().encode('utf-8')
+    # elif env["PATH_INFO"] == '/jquery.js':
+    #     r = open('jquery.js').read().encode('utf-8')
+    elif env["PATH_INFO"] == '/stylesheet.css':
+        r = open('stylesheet.css').read().encode('utf-8')
+        start_response('200 OK', [('Content-Type', 'text/css')])
+        return [r]
     elif env["PATH_INFO"] == '/play':
         username = env['QUERY_STRING'].split('=')[1]
         role = game.getRole(username)
@@ -57,6 +61,11 @@ def action(env, start_response):
 
     start_response('200 OK', [('Content-Type', 'text/html')])
     return [b"ACC"]
+
+
+def slayer_stream():
+    game.time_step(0.01)
+    time.sleep(0.01)
 
 
 if __name__ == '__main__':

